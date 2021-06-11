@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testExecutions version="1">
-  <file path="/Users/danielwasserman/Documents/sonar-source-test/src/__tests__/App.test.js">
+  <file path="src/__tests__/App.test.js">
     <testCase name="renders learn react link" duration="26"/>
     <testCase name="add shouold work" duration="1"/>
   </file>
