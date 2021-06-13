@@ -1,5 +1,4 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
 export function add(num1, num2) {
   num1 == num2

@@ -1,4 +1,6 @@
 <testExecutions version="1">
 <file path="src/__tests__/App.test.js">
+<testCase name="renders learn react link" duration="33" />
+<testCase name="add shouold work" duration="0" />
 </file>
 </testExecutions>
