@@ -12,12 +12,15 @@
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"
   },
+  "jest": {
+    "reporters": ["jest-sonar"]
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "test:coverage": "react-scripts test --coverage --testResultsProcessor=jest-sonar-reporter"
+    "test:coverage": "react-scripts test -- --coverage --config=jest.config.js"
   },
   "eslintConfig": {
     "extends": [
@@ -36,5 +39,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-syntax-class-properties": "^6.13.0",
+    "babel-plugin-transform-class-properties": "^6.24.1"
   }
 }
