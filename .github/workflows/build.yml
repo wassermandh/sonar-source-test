@@ -21,7 +21,7 @@ jobs:
         run: pip3 install pytest pytest-cov && pytest src/__tests__ --cov=src --cov-report xml:cov.xml && pytest src --junitxml=exec.xml
       - name: Add Pylint info
         shell: bash -l {0}
-        run: pip3 install pylint && pylint src --output-format=parseable > pylint.parseable
+        run: pip3 install pylint && pylint src --output-format=parseable
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
