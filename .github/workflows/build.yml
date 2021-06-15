@@ -16,8 +16,8 @@ jobs:
       - uses: actions/setup-node@v1
       - uses: actions/setup-python@v2
       - name: Add Pylint info
-        shell: bash -l {0}
-        run: pip3 install pylint && touch pylint.parseable && pylint src --output-format=parseable > pylint.parseable
+        run: pip3 install pylint
+        run: pylint src --output-format=parseable > pylint.parseable
       - name: JavaScript Test & Coverage
         run: npm install && npm run test:coverage
       - name: Python Test & Coverage
