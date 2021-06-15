@@ -18,7 +18,7 @@ jobs:
       - name: Install pylint
         run: pip3 install pylint
       - name: run pylint
-        run: pylint src --output-format=parseable > pylint.parseable
+        run: pylint src --output-format=parseable
       - name: JavaScript Test & Coverage
         run: npm install && npm run test:coverage
       - name: Python Test & Coverage
