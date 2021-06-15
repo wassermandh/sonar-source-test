@@ -15,13 +15,13 @@ jobs:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - uses: actions/setup-node@v1
       - uses: actions/setup-python@v2
+      - name: Add Pylint info
+        shell: bash -l {0}
+        run: pip3 install pylint && touch pylint.parseable && pylint src --output-format=parseable > pylint.parseable
       - name: JavaScript Test & Coverage
         run: npm install && npm run test:coverage
       - name: Python Test & Coverage
         run: pip3 install pytest pytest-cov && pytest src/__tests__ --cov=src --cov-report xml:cov.xml && pytest src --junitxml=exec.xml
-      - name: Add Pylint info
-        shell: bash -l {0}
-        run: pip3 install pylint && pylint src --output-format=parseable
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
