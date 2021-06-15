@@ -19,6 +19,8 @@ jobs:
         run: npm install && npm run test:coverage
       - name: Python Test & Coverage
         run: pip3 install pytest pytest-cov && pytest src/__tests__ --cov=src --cov-report xml:cov.xml && pytest src --junitxml=exec.xml
+      - name: Add Pylint info
+        run: pylint src --output-format=parseable > pylint.parseable
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
