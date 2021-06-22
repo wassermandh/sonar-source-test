@@ -57,7 +57,6 @@ jobs:
           others: ""
 
   SonarQube_Analysis:
-    needs: [Tests, Linting, Dependency_Check]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
