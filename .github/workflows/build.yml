@@ -55,8 +55,3 @@ jobs:
           path: "."
           format: "HTML"
           others: ""
-      - name: Upload Test results
-        uses: actions/upload-artifact@master
-        with:
-          name: Depcheck report
-          path: ${{github.workspace}}
