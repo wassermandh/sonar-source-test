@@ -36,7 +36,7 @@ jobs:
       - name: ESLint
         run: nvm install && npx yarn add eslint && eslint src -f json -o eslint.json
 
-  Dependency Check:
+  Dependency_Check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
