@@ -6,25 +6,54 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  sonarcloud:
-    name: SonarCloud
+  Tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: actions/setup-node@v1
+          fetch-depth: 1
+
       - uses: actions/setup-python@v2
-      - name: Install pylint
-        run: pip3 install pylint
-      - name: run pylint
-        run: pylint src --exit-zero --output-format=parseable > pylint.parseable
+
       - name: JavaScript Test & Coverage
-        run: npm install && npm run test:coverage
+        run: nvm install && npx yarn run test:coverage
+
       - name: Python Test & Coverage
         run: pip3 install pytest pytest-cov && pytest src/__tests__ --cov=src --cov-report xml:cov.xml && pytest src --junitxml=exec.xml
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  Linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v2
+
+      - name: Pylint
+        run: pip3 install pylint && pylint src --exit-zero --output-format=parseable > pylint.parseable
+
+      - name: ESLint
+        run: nvm install && npx yarn add eslint && eslint src -f json -o eslint.json
+
+  Dependency Check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: Build project with Maven
+        run: mvn clean install
+      - name: Depcheck
+        uses: dependency-check/Dependency-Check_Action@main
+        id: Depcheck
+        with:
+          project: "sonar-source-test"
+          path: "."
+          format: "HTML"
+          others: ""
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+          name: Depcheck report
+          path: ${{github.workspace}}
