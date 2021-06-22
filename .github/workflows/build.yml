@@ -36,7 +36,7 @@ jobs:
 
       - name: ESLint
         shell: bash -l {0}
-        run: nvm install && yarn add eslint && yarn run eslint src -f json -o eslint.json
+        run: nvm install && yarn add eslint && yarn run eslint src -f json -o eslint.json || exit 0
 
   Dependency_Check:
     runs-on: ubuntu-latest
