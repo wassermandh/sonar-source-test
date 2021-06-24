@@ -18,9 +18,17 @@ jobs:
       - name: JavaScript Test & Coverage
         shell: bash -l {0}
         run: nvm install && yarn install && npx yarn run test:coverage
+        uses: actions/upload-artifact@master
+        with:
+          name: JS Coverage Report
+          path: ${{github.workspace}}
 
       - name: Python Test & Coverage
         run: pip3 install pytest pytest-cov && pytest src/__tests__ --cov=src --cov-report xml:cov.xml && pytest src --junitxml=exec.xml
+        uses: actions/upload-artifact@master
+        with:
+          name: Python Coverage Report
+          path: ${{github.workspace}}
 
   Linting:
     runs-on: ubuntu-latest
@@ -33,10 +41,18 @@ jobs:
 
       - name: Pylint
         run: pip3 install pylint && pylint src --exit-zero --output-format=parseable > pylint.parseable
+        uses: actions/upload-artifact@master
+        with:
+          name: Pylint report
+          path: ${{github.workspace}}
 
       - name: ESLint
         shell: bash -l {0}
         run: nvm install && yarn add eslint && yarn run eslint src -f json -o eslint.json || exit 0
+        uses: actions/upload-artifact@master
+        with:
+          name: ESLint report
+          path: ${{github.workspace}}
 
   Dependency_Check:
     runs-on: ubuntu-latest
@@ -55,6 +71,11 @@ jobs:
           path: "."
           format: "HTML"
           others: ""
+      - name: Upload test results
+        uses: actions/upload-artifact@master
+        with:
+          name: Depcheck report
+          path: ${{github.workspace}}/reports
 
   SonarQube_Analysis:
     needs: [Tests, Linting, Dependency_Check]
