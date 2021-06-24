@@ -26,7 +26,11 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: Test Reports
-          path: ${{github.workspace}}
+          path: |
+            ${{github.workspace}}/test-report.xml
+            ${{github.workspace}}/coverage/lcov.info
+            ${{github.workspace}}/cov.xml
+            ${{github.workspace}}/exec.xml
 
   Linting:
     runs-on: ubuntu-latest
