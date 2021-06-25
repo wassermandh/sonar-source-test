@@ -46,7 +46,7 @@ jobs:
 
       - name: ESLint
         shell: bash -l {0}
-        run: nvm install && yarn add eslint && yarn run eslint src -f json -o eslint.json || exit 0
+        run: nvm install && yarn add eslint && yarn run eslint src -f ./eslint_relative_path_formatter.js -o eslint.json || exit 0
 
       - name: Upload Linting Reports
         uses: actions/upload-artifact@master
