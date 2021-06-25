@@ -44,38 +44,21 @@ jobs:
       - name: Pylint
         run: pip3 install pylint && pylint src --exit-zero --output-format=parseable > pylint.parseable
 
+      - name: ESLint
+        shell: bash -l {0}
+        run: nvm install && yarn add eslint && yarn run eslint src -f ./eslint_relative_path_formatter.js -o eslint.json || exit 0
+
       - name: Upload Linting Reports
         uses: actions/upload-artifact@master
         with:
           name: Linting_Reports
           path: |
+            ${{github.workspace}}/eslint.json
             ${{github.workspace}}/pylint.parseable
 
-  Dependency_Check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-      - name: Install node modules
-        shell: bash -l {0}
-        run: nvm install && yarn install
-      - name: Depcheck
-        uses: dependency-check/Dependency-Check_Action@main
-        id: Depcheck
-        with:
-          project: "sonar-source-test"
-          path: "."
-          format: "HTML"
-          others: ""
-      - name: Upload Dependency Check
-        uses: actions/upload-artifact@master
-        with:
-          name: Depcheck_report
-          path: ${{github.workspace}}/reports
 
   SonarQube_Analysis:
-    needs: [Tests, Linting, Dependency_Check]
+    needs: [Tests, Linting]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
