@@ -80,6 +80,7 @@ jobs:
   SonarQube_Analysis:
     needs: [Tests, Linting, Dependency_Check]
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
         with:
