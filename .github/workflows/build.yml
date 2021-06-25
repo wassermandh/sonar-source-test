@@ -78,7 +78,6 @@ jobs:
           path: ${{github.workspace}}/reports
 
   SonarQube_Analysis:
-    needs: [Tests, Linting, Dependency_Check]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -87,11 +86,15 @@ jobs:
           fetch-depth: 0
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v2
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
-        with:
-          args: >
-            -X
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - name: Install Sonarqube
+        shell: bash -l {0}
+        run: |
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+          unzip sonar-scanner-cli-4.6.2.2472-linux.zip
+          rm -rf sonar-scanner-cli-4.6.2.2472-linux.zip
+          mv sonar-scanner-4.6.2.2472-linux/ /opt/sonar-scanner
+          echo 'export PATH="$PATH:/opt/sonar-scanner/bin"' >>~/.bash_profile
+          source ~/.bash_profile
+      - name: Run Sonarqube Analysis
+        shell: bash -l {0}
+        run: sonar-scanner
