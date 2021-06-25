@@ -97,4 +97,4 @@ jobs:
           source ~/.bash_profile
       - name: Run Sonarqube Analysis
         shell: bash -l {0}
-        run: sonar-scanner
+        run: sonar-scanner -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
